@@ -1,0 +1,4 @@
+package-lock.json -text
+# .gitattributes
+utils/secToDuration.js text eol=lf
+tailwind.config.js text eol=lf

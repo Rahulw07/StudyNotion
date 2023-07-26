@@ -1,0 +1,2 @@
+# .gitattributes
+utils/secToDuration.js text eol=lf
