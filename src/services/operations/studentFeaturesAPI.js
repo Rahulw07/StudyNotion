@@ -29,8 +29,7 @@ export async function BuyCourse(token, courses, userDetails, navigate, dispatch)
     try{
         //load the script
         const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
-        console.log("Printing res", res);
-
+ 
         if(!res) {
             toast.error("RazorPay SDK failed to load");
             return;
@@ -47,8 +46,7 @@ export async function BuyCourse(token, courses, userDetails, navigate, dispatch)
         if(!orderResponse.data.success) {
             throw new Error(orderResponse.data.message);
         }
-        console.log("PRINTING orderResponse", orderResponse);
-        //options
+         //options
         const options = {
             key: process.env.RAZORPAY_KEY,
             currency: orderResponse.data.message.currency,

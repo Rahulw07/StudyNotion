@@ -16,10 +16,8 @@ exports.updateCourseProgress = async(req,res) => {
       if(!subSection) {
           return res.status(404).json({error:"Invalid SubSection"});
       }
-
-      console.log("SubSection Validation Done");
-
-      //check for old entry 
+ 
+       //check for old entry 
       let courseProgress = await CourseProgress.findOne({
           courseID:courseId,
           userId:userId,
@@ -31,7 +29,6 @@ exports.updateCourseProgress = async(req,res) => {
           });
       }
       else {
-          console.log("Course Progress Validation Done");
           //check for re-completing video/subsection
           if(courseProgress.completedVideos.includes(subsectionId)) {
               return res.status(400).json({
@@ -41,10 +38,9 @@ exports.updateCourseProgress = async(req,res) => {
 
           //poush into completed video
           courseProgress.completedVideos.push(subsectionId);
-          console.log("Course Progress Push Done");
       }
       await courseProgress.save();
-      console.log("Course Progress Save call Done");
+      
       return res.status(200).json({
           success:true,
           message:"Course Progress Updated Successfully",
@@ -87,7 +83,6 @@ exports.getProgressPercentage = async (req, res) => {
         .status(400)
         .json({ error: "Can not find Course Progress with these IDs." })
     }
-    console.log(courseProgress, userId)
     let lectures = 0
     courseProgress.courseID.courseContent?.forEach((sec) => {
       lectures += sec.subSection.length || 0

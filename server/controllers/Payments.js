@@ -14,7 +14,7 @@ exports.capturePayment = async(req, res) => {
 
     const {courses} = req.body;
     const userId = req.user.id;
-    console.log("Printing user id", userId);
+  
 
     if(courses.length === 0) {
         return res.json({success:false, message:"Please provide Course Id"});
@@ -32,11 +32,6 @@ exports.capturePayment = async(req, res) => {
             }
 
             const uid  = new mongoose.Types.ObjectId(userId);
-            // console.log("Printing userid", uid)
-            // if(course.studentsEnrolled.includes(uid)) {
-            //     return res.status(200).json({success:false, message:"Student is already Enrolled"});
-            // }
-
             totalAmount += course.price;
         }
         catch(error) {
@@ -133,7 +128,6 @@ const enrollStudents = async(courses, userId, res) => {
             `Successfully Enrolled into ${enrolledCourse.courseName}`,
             courseEnrollmentEmail(enrolledCourse.courseName, `${enrolledStudent.firstName}`)
         )    
-        //console.log("Email Sent Successfully", emailResponse.response);
         }
         catch(error) {
             console.log(error);
