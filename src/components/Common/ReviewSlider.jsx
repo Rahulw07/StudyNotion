@@ -32,20 +32,47 @@ function ReviewSlider() {
       }
     })()
   }, [])
+
+  const [slidesPerView, setSlidesPerView] = useState(4);
+  useEffect(() => {
+    // Update slides per view on mount and window resize
+    updateSlidesPerView();
+    window.addEventListener("resize", updateSlidesPerView);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", updateSlidesPerView);
+    };
+  }, []);
+
+
+
+  const updateSlidesPerView = () => {
+    if (window.innerWidth >= 1024) {
+      setSlidesPerView(4);
+    } else if (window.innerWidth >= 768) {
+      setSlidesPerView(3);
+    } else if (window.innerWidth >= 540) {
+      setSlidesPerView(2);
+    }
+     else {
+      setSlidesPerView(1);
+    }
+  };
   return (
     <div className="text-white w-full">
-      <div className="my-[50px] h-[184px] max-w-maxContentTab lg:max-w-maxContent">
+      <div className="lg:my-[50px] md:my-[45px]  my-[20px] h-[184px] max-w-maxContentTab lg:max-w-maxContent">
         <Swiper
-          slidesPerView={4}
+          slidesPerView={slidesPerView}
           spaceBetween={25}
           loop={true}
           freeMode={true}
           autoplay={{
-            delay: 2500,
+            delay: 1000,
             disableOnInteraction: false,
           }}
           modules={[FreeMode, Pagination, Autoplay]}
-          className="w-full "
+          className="w-full"
         >
           {reviews.map((review, i) => {
             return (

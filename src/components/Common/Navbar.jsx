@@ -4,7 +4,7 @@ import { BsChevronDown } from "react-icons/bs"
 import { useSelector } from "react-redux"
 import { Link, matchPath, useLocation } from "react-router-dom"
 import { CiLogin } from "react-icons/ci";
- 
+import { RxCross1 } from "react-icons/rx"
 import logo from "../../assets/Logo/Logo-Full-Light.png"
 import { NavbarLinks } from "../../data/navbar-links"
 import { apiConnector } from "../../services/apiConnector"
@@ -13,6 +13,7 @@ import { ACCOUNT_TYPE } from "../../utils/constants"
 import ProfileDropdown from "../core/Auth/ProfileDropdown"
 import useOnClickOutside from "../../hooks/useOnClickOutside"
 import { useRef } from "react"
+import smallLogo from "../../assets/Logo/Logo-Small-Light.png"
  
 
 function Navbar() {
@@ -52,24 +53,29 @@ function Navbar() {
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown)
   }
-
+  const handleOnClose = () => {
+    setShowDropdown(false)
+  }
+ 
   return (
     <div
       className={`flex h-14 items-center justify-center border-b-[1px] border-b-richblack-700 ${
         location.pathname !== "/" ? "bg-richblack-800" : ""
       } transition-all duration-200`}
     >
-      <div className="flex w-11/12 max-w-maxContent items-center justify-between relative">
+      <div  className="flex w-11/12 max-w-maxContent items-center justify-between relative">
         {/* Logo */}
-        <Link to="/">
+        <Link to="/" className="hidden md:flex lg:flex">
           <img src={logo} alt="Logo" width={160} height={32} loading="lazy" />
+        </Link>
+        <Link to="/" className="md:hidden lg:hidden">
+          <img src={smallLogo} alt="Logo" width={24} height={24} loading="lazy" />
         </Link>
 
           {/* Small screen */}
          <div className="md:hidden flex gap-4 items-center justify-center">
-         <button onClick={toggleDropdown} className="mr-4">
-          <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
-        </button>
+         {<AiOutlineMenu size={24} onClick={toggleDropdown}  className={`${showDropdown ? "hidden" : "flex"} text-white`}/>}
+       
         {user && user?.accountType !== ACCOUNT_TYPE.INSTRUCTOR && (
             <Link to="/dashboard/cart" className="relative">
               <AiOutlineShoppingCart className="text-2xl text-richblack-100" />
@@ -86,7 +92,8 @@ function Navbar() {
 
         {
           showDropdown && (
-            <ul ref={dropdownRef} className="flex flex-col absolute border border-richblack-300 top-10 md:hidden rounded-md right-2 bg-richblack-800 items-center p-4  z-50 w-full gap-2 text-richblack-25">
+            <ul ref={dropdownRef} className="flex flex-col absolute border   border-richblack-300 top-10 md:hidden rounded-md right-2 bg-richblack-800 items-center p-4  z-50 w-full gap-2 text-richblack-25">
+            <div className="absolute top-3 right-3"><RxCross1 size={24} className="text-blue-500" onClick={handleOnClose}/></div>
             {NavbarLinks.map((link, index) => (
               <li key={index}>
                 {link.title === "Catalog" ? (

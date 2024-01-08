@@ -51,7 +51,7 @@ export default function Instructor() {
         <div className="spinner"></div>
       ) : courses.length > 0 ? (
         <div>
-          <div className="my-4 flex h-[450px] space-x-4">
+          <div className="my-4 flex md:flex-row flex-col md:h-[450px] lg:h-[450px] md:space-x-4 lg:space-x-4">
             {/* Render chart / graph */}
             {totalAmount > 0 || totalStudents > 0 ? (
               <InstructorChart courses={instructorData} />
@@ -88,7 +88,7 @@ export default function Instructor() {
               </div>
             </div>
           </div>
-          <div className="rounded-md bg-richblack-800 p-6">
+          <div className="rounded-md bg-richblack-800 p-6 mt-20">
             {/* Render 3 courses */}
             <div className="flex items-center justify-between">
               <p className="text-lg font-bold text-richblack-5">Your Courses</p>
@@ -96,13 +96,13 @@ export default function Instructor() {
                 <p className="text-xs font-semibold text-yellow-50">View All</p>
               </Link>
             </div>
-            <div className="my-4 flex items-start space-x-6">
+            <div className="my-4 flex  flex-col gap-4 lg:gap-0  lg:flex-row items-center lg:items-start space-x-6">
               {courses.slice(0, 3).map((course) => (
-                <div key={course._id} className="w-1/3">
+                <div key={course._id} className="lg:w-1/3">
                   <img
                     src={course.thumbnail}
                     alt={course.courseName}
-                    className="h-[201px] w-full rounded-md object-cover"
+                    className="lg:h-[201px] w-full rounded-md object-cover"
                     loading="lazy"
                   />
                   <div className="mt-3 w-full">
