@@ -25,7 +25,7 @@ export default function RenderSteps() {
 
   return (
     <>
-      <div className="relative mb-2 flex w-full justify-center">
+      <div className="relative md:mb-2 lg:mb-2 mb-4 flex w-full justify-center">
         {steps.map((item) => (
           <>
             <div
@@ -50,7 +50,7 @@ export default function RenderSteps() {
             {item.id !== steps.length && (
               <>
                 <div
-                  className={`h-[calc(34px/2)] w-[33%]  border-dashed border-b-2 ${
+                  className={`h-[calc(34px/2)] lg:w-[33%] md:w-[33%] w-[25%] border-dashed border-b-2 ${
                   step > item.id  ? "border-yellow-50" : "border-richblack-500"
                 } `}
                 ></div>
@@ -60,7 +60,7 @@ export default function RenderSteps() {
         ))}
       </div>
 
-      <div className="relative mb-16 flex w-full select-none justify-between">
+      <div className="relative mb-16 lg:flex md:flex w-full select-none justify-between hidden">
         {steps.map((item) => (
           <>
             <div

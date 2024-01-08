@@ -42,7 +42,7 @@ export default function CoursesTable({ courses, setCourses }) {
   return (
     <>
       <Table className="rounded-xl border border-richblack-800 ">
-        <Thead>
+      <Thead>
           <Tr className="flex gap-x-10 rounded-t-md border-b border-b-richblack-800 px-6 py-2">
             <Th className="flex-1 text-left text-sm font-medium uppercase text-richblack-100">
               Courses
@@ -82,7 +82,7 @@ export default function CoursesTable({ courses, setCourses }) {
                     <p className="text-lg font-semibold text-richblack-5">
                       {course.courseName}
                     </p>
-                    <p className="text-xs text-richblack-300">
+                    <p className="text-xs text-richblack-300 hidden lg:flex">
                       {course.courseDescription.split(" ").length >
                       TRUNCATE_LENGTH
                         ? course.courseDescription

@@ -71,7 +71,7 @@ export default function EnrolledCourses() {
                   className="h-14 w-14 rounded-lg object-cover"
                   loading="lazy"
                 />
-                <div className="flex max-w-xs flex-col gap-2">
+                <div className="max-w-xs flex-col gap-2 hidden md:flex lg:flex">
                   <p className="font-semibold">{course.courseName}</p>
                   <p className="text-xs text-richblack-300">
                     {course.courseDescription.length > 50

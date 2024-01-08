@@ -1,16 +1,20 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef} from "react"
 import { BsChevronDown } from "react-icons/bs"
 import { IoIosArrowBack } from "react-icons/io"
 import { useSelector } from "react-redux"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
-
+import { RxCross1 } from "react-icons/rx"
+import useOnClickOutside from "../../../hooks/useOnClickOutside";
 import IconBtn from "../../Common/IconBtn"
+import { TbLayoutSidebarLeftExpand } from "react-icons/tb";
 
 export default function VideoDetailsSidebar({ setReviewModal }) {
   const [activeStatus, setActiveStatus] = useState("")
   const [videoBarActive, setVideoBarActive] = useState("")
   const navigate = useNavigate()
   const location = useLocation()
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
   const { sectionId, subSectionId } = useParams()
   const {
     courseSectionData,
@@ -18,6 +22,7 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
     totalNoOfLectures,
     completedLectures,
   } = useSelector((state) => state.viewCourse)
+   
 
   useEffect(() => {
     ;(() => {
@@ -38,9 +43,28 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseSectionData, courseEntireData, location.pathname])
 
+  useOnClickOutside(dropdownRef, () => {    
+    setShowDropdown(false);               
+  });
+
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
   return (
-    <>
-      <div className="flex h-[calc(100vh-3.5rem)] w-[320px] max-w-[350px] flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800">
+    <div className="relative">
+
+      <div className="md:hidden cursor-pointer p-2" onClick={toggleDropdown}>
+          {showDropdown ? (<RxCross1 size={24}  className="text-blue-500"/>) : (<TbLayoutSidebarLeftExpand size={32} className="text-blue-500"/>)}
+        </div>
+
+        {/* {
+          showDropdown && (
+
+          )
+        } */}
+       <div className={`${showDropdown ? "flex" : "hidden lg:flex md:flex"}`}>
+       <div className="flex h-[calc(100vh-3.5rem)] w-[320px] max-w-[350px] flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800">
         <div className="mx-5 flex flex-col items-start justify-between gap-2 gap-y-4 border-b border-richblack-600 py-5 text-lg font-bold text-richblack-25">
           <div className="flex w-full items-center justify-between ">
             <div
@@ -107,6 +131,7 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
                           `/view-course/${courseEntireData?._id}/section/${course?._id}/sub-section/${topic?._id}`
                         )
                         setVideoBarActive(topic._id)
+                        setShowDropdown(false) 
                       }}
                     >
                       <input
@@ -123,6 +148,7 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
           ))}
         </div>
       </div>
-    </>
+       </div>
+    </div>
   )
 }
