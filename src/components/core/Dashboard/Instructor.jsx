@@ -52,7 +52,7 @@ export default function Instructor() {
         <div className="spinner"></div>
       ) : courses.length > 0 ? (
         <div>
-          <div className="my-4 flex md:flex-row flex-col md:h-[450px] lg:h-[450px] md:space-x-4 lg:space-x-4">
+          <div className="my-4 flex md:flex-row flex-col md:h-[450px] lg:h-[550px] md:space-x-4 lg:space-x-4">
             {/* Render chart / graph */}
             {totalAmount > 0 || totalStudents > 0 ? (
               <InstructorChart courses={instructorData} />
