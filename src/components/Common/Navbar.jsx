@@ -4,7 +4,6 @@ import { BsChevronDown } from "react-icons/bs"
 import { useSelector } from "react-redux"
 import { Link, matchPath, useLocation } from "react-router-dom"
 import { CiLogin } from "react-icons/ci";
-import { RxCross1 } from "react-icons/rx"
 import logo from "../../assets/Logo/Logo-Full-Light.png"
 import { NavbarLinks } from "../../data/navbar-links"
 import { apiConnector } from "../../services/apiConnector"
@@ -74,7 +73,7 @@ function Navbar() {
 
           {/* Small screen */}
          <div className="md:hidden flex gap-4 items-center justify-center">
-         {<AiOutlineMenu size={24} onClick={toggleDropdown}  className={`${showDropdown ? "hidden" : "flex"} text-white`}/>}
+         {<AiOutlineMenu size={24} onClick={toggleDropdown}  className={`text-white cursor-pointer`}/>}
        
         {user && user?.accountType !== ACCOUNT_TYPE.INSTRUCTOR && (
             <Link to="/dashboard/cart" className="relative">
@@ -89,53 +88,62 @@ function Navbar() {
 
           {token !== null && <ProfileDropdown />}
          </div>
-
+  
         {
           showDropdown && (
-            <ul ref={dropdownRef} className="flex flex-col absolute border   border-richblack-300 top-10 md:hidden rounded-md right-2 bg-richblack-800 items-center p-4  z-50 w-full gap-2 text-richblack-25">
-            <div className="absolute top-3 right-3"><RxCross1 size={24} className="text-blue-500" onClick={handleOnClose}/></div>
+          <div ref={dropdownRef} 
+          className={`fixed  top-0 left-0 z-50  h-full bg-richblack-800 transition-all duration-500 ease-in-out ${
+            showDropdown ? 'w-[80%]' : 'w-0'
+          } md:hidden`}>
+          <ul  
+             className={`flex flex-col border-richblack-300 top-10
+             duration-300 ease-in-out ${
+            showDropdown ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full'
+          }
+              md:hidden  bg-richblack-800 items-center justify-center h-screen p-4  z-50 w-full gap-12 text-richblack-25`}
+              >
             {NavbarLinks.map((link, index) => (
               <li key={index}>
                 {link.title === "Catalog" ? (
                   <>
-                    <div
-                      className={`group relative flex cursor-pointer items-center gap-1 ${
-                        matchRoute("/catalog/:catalogName")
-                          ? "text-yellow-25"
-                          : "text-richblack-25"
-                      }`}
-                    >
-                      <p>{link.title}</p>
-                      <BsChevronDown />
-                      <div className="invisible absolute left-[50%] top-[50%] z-[1000] flex w-[320px] translate-x-[-50%] translate-y-[3em] flex-col rounded-lg bg-richblack-5 p-4 text-richblack-900 opacity-0 transition-all duration-150 group-hover:visible group-hover:translate-y-[1.65em] group-hover:opacity-100 lg:w-[300px]">
-                        <div className="absolute left-[50%] top-0 -z-10 h-6 w-6 translate-x-[80%] translate-y-[-40%] rotate-45 select-none rounded bg-richblack-5"></div>
-                        {loading ? (
-                          <p className="text-center">Loading...</p>
-                        ) : subLinks.length ? (
-                          <>
-                            {subLinks
-                              ?.filter(
-                                (subLink) => subLink?.courses?.length > 0
-                              )
-                              ?.map((subLink, i) => (
-                                <Link
-                                  to={`/catalog/${subLink.name
-                                    .split(" ")
-                                    .join("-")
-                                    .toLowerCase()}`}
-                                  className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"
-                                  onClick={toggleDropdown}
-                                  key={i}
-                                >
-                                  <p>{subLink.name}</p>
-                                </Link>
-                              ))}
-                          </>
-                        ) : (
-                          <p className="text-center">No Courses Found</p>
-                        )}
-                      </div>
+                  <div
+                    className={`group relative flex cursor-pointer items-center gap-1 ${
+                      matchRoute("/catalog/:catalogName")
+                        ? "text-yellow-25"
+                        : "text-richblack-25"
+                    }`}
+                  >
+                    <p>{link.title}</p>
+                    <BsChevronDown />
+                    <div className="invisible absolute left-[50%] top-[50%] z-[1000] flex w-[320px] translate-x-[-50%] translate-y-[3em] flex-col rounded-lg bg-richblack-5 p-4 text-richblack-900 opacity-0 transition-all duration-150 group-hover:visible group-hover:translate-y-[1.65em] group-hover:opacity-100 lg:w-[300px]">
+                      <div className="absolute left-[50%] top-0 -z-10 h-6 w-6 translate-x-[80%] translate-y-[-40%] rotate-45 select-none rounded bg-richblack-5"></div>
+                      {loading ? (
+                        <p className="text-center">Loading...</p>
+                      ) : subLinks.length ? (
+                        <>
+                          {subLinks
+                            ?.filter(
+                              (subLink) => subLink?.courses?.length > 0
+                            )
+                            ?.map((subLink, i) => (
+                              <Link
+                                to={`/catalog/${subLink.name
+                                  .split(" ")
+                                  .join("-")
+                                  .toLowerCase()}`}
+                                className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"
+                                onClick={toggleDropdown}
+                                key={i}
+                              >
+                                <p>{subLink.name}</p>
+                              </Link>
+                            ))}
+                        </>
+                      ) : (
+                        <p className="text-center">No Courses Found</p>
+                      )}
                     </div>
+                  </div>
                   </>
                 ) : (
                   <Link to={link?.path}  onClick={toggleDropdown}>
@@ -153,7 +161,7 @@ function Navbar() {
               </li>
             ))}
 
-            <div className=" flex flex-col items-center justify-center gap-2 ">
+            <div className=" flex flex-col items-center justify-center gap-12 ">
           {token === null && (
             <Link to="/login" onClick={toggleDropdown} className="flex gap-1 items-center">
               <button className="text-richblack-25">
@@ -172,8 +180,7 @@ function Navbar() {
            
         </div>
           </ul>
-
-          
+          </div>
           )
         }
 
@@ -274,3 +281,4 @@ function Navbar() {
 }
 
 export default Navbar
+ 
