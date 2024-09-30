@@ -12,6 +12,9 @@ const cors = require("cors");
 const {cloudinaryConnect } = require("./config/cloudinary");
 const fileUpload = require("express-fileupload");
 const dotenv = require("dotenv");
+const setupPingServer = require("./utils/pingServer");
+const baseUrl = process.env.SELF_PING_URL;
+const interval = process.env.CUSTOM_INTERVAL;
 
 //Loading enviroments variabe from dotenv 
 dotenv.config();
@@ -55,6 +58,7 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-	console.log(`App is running at ${PORT}`)
+	console.log(`App is running at ${PORT}`);
 })
 
+setInterval(() => setupPingServer(baseUrl), interval);
